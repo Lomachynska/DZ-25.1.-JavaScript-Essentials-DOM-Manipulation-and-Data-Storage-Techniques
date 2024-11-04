@@ -18,12 +18,33 @@ console.log('#8. JavaScript homework example file')
  */
 
 function createDomElement(tagName, textContent, container) {
-  // code here
+  // Створення нового DOM-елемента з вказаним тегом
+  const newElement = document.createElement(tagName);
+  
+  // Додавання текстового вмісту до нового елемента
+  newElement.textContent = textContent;
+  
+  // Додавання нового елемента до вказаного контейнера
+  container.appendChild(newElement);
+  
+  // Повернення посилання на створений елемент
+  return newElement;
 }
 
 // Демонстрація використання функції
-// const container = document.body // В якості прикладу використовуємо body як контейнер
-// console.log(createDomElement('p', 'This paragraph has been added to the specified container.', container))
+const container = document.body; // В якості прикладу використовуємо body як контейнер
+console.log(createDomElement('p', 'This paragraph has been added to the specified container.', container));
+
+
+// Створення нового елемента: Використовується document.createElement(tagName) для створення нового елемента з вказаним тегом.
+// одавання текстового вмісту: Властивість textContent використовується для встановлення тексту нового елемента.
+// Додавання до контейнера: Метод appendChild додає створений елемент до зазначеного контейнера.
+// Повернення елемента: Функція повертає посилання на створений елемент, що дозволяє подальшу взаємодію з ним.
+
+// export { createDomElement }; - Цю функцію можна експортувати, якщо використовуємо модулі. У файлі, що підтримує ES6.
+
+
+
 
 /*
  * #2
@@ -42,11 +63,31 @@ function createDomElement(tagName, textContent, container) {
 // setUserInfoCookie.js
 
 function setUserInfoCookie(key, value) {
-  // code here
+  // Кодуємо значення параметра для коректного зберігання у cookie
+  const encodedValue = encodeURIComponent(value);
+  
+  // Визначаємо термін дії cookie (10 секунд)
+  const expirationTime = new Date(Date.now() + 10 * 1000).toUTCString();
+  
+  // Встановлюємо cookie з іменем userInfo
+  document.cookie = `userInfo=${encodedValue}; expires=${expirationTime}; path=/`;
+  
+  // Виводимо повідомлення про успішне зберігання даних
+  console.log(`Cookie збережено: userInfo=${key}=${value}`);
 }
 
 // Демонстрація використання функції
-// setUserInfoCookie('language', 'en');
+setUserInfoCookie('language', 'en');
+
+
+// Кодування значення: Функція використовує encodeURIComponent для кодування значення, щоб забезпечити безпечне зберігання в cookie.
+// Термін дії cookie: Термін дії встановлюється на 10 секунд за допомогою Date.now() і додається до поточного часу. Метод toUTCString() перетворює дату в правильний формат для cookie.
+// Встановлення cookie: Формується рядок для cookie, в якому вказується ім'я, закодоване значення, термін дії та шлях (в даному випадку /, що означає доступність cookie на всьому сайті).
+// Консольне повідомлення: Виводиться інформація про успішне зберігання даних.
+
+
+
+
 
 /*
  * #3
@@ -68,16 +109,47 @@ function setUserInfoCookie(key, value) {
  * 4. Повертає значення отримане з sessionStorage.
  */
 
+
 function saveUserInfo(key, value) {
-  // code here
+  // Зберігаємо пару ключ-значення в sessionStorage
+  sessionStorage.setItem(key, value);
+  
+  // Виводимо у консоль повідомлення про успішне збереження
+  console.log(`Saved ${key}: ${value}`);
 }
 
 function getUserInfo(key) {
-  // code here
+  // Отримуємо значення за вказаним ключем з sessionStorage
+  const value = sessionStorage.getItem(key);
+  
+  // Виводимо у консоль повідомлення про успішне отримання
+  if (value !== null) {
+    console.log(`Retrieved ${key}: ${value}`);
+  } else {
+    console.log(`No value found for key: ${key}`);
+  }
+  
+  // Повертаємо отримане значення
+  return value;
 }
 
 // Демонстрація використання функцій
-// saveUserInfo('username', 'JohnDoe');
-// console.log(getUserInfo('username')); // Виведе: JohnDoe
+saveUserInfo('username', 'JohnDoe');
+console.log(getUserInfo('username')); // Виведе: JohnDoe
+
+// Експорт функцій для використання в інших модулях
+export { saveUserInfo, getUserInfo };
 
 export { createDomElement, setUserInfoCookie, saveUserInfo, getUserInfo }
+
+// 1. Функція saveUserInfo:
+// Приймає два параметри: key (ключ) і value (значення).
+// Використовує sessionStorage.setItem() для зберігання пари ключ-значення.
+// Виводить у консоль повідомлення, яке підтверджує успішне збереження.
+
+// 2. Функція getUserInfo:
+// Приймає один параметр: key.
+// Використовує sessionStorage.getItem() для отримання значення за вказаним ключем.
+// Виводить у консоль повідомлення про отримане значення або про відсутність значення за вказаним ключем.
+// Повертає отримане значення.
+// Ці функції дозволяють зручно зберігати та отримувати дані в sessionStorage, що є особливо корисним для зберігання інформації на час сесії.
